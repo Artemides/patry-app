@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   postgres:
-    image: postgres/latest
+    image: postgres:latest
     restart: always
     container_name: pantryDB
     volumes:
@@ -13,4 +13,5 @@ services:
       - POSTGRES_PASSWORD=admin
       - PGDATA=/data/postgres
 
-volumes: postgres
+volumes:
+  postgres:
