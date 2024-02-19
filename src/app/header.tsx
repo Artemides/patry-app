@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import Link from "next/link";
 import React, { use } from "react";
 import ThemeToggle from "./theme-toggle";
+import Avatar from "@/components/Avatar";
 
 const Header = async () => {
   const { getUser } = await auth();
@@ -20,7 +21,8 @@ const Header = async () => {
             </Link>
           )}
         </div>
-        <div className="flex justify-between gap-4">
+        <div className="flex items-center justify-between gap-4">
+          {user && <Avatar />}
           <ThemeToggle />
           {user ? (
             <Link href="/api/auth/signout">
