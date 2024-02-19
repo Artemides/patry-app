@@ -31,7 +31,7 @@ export class ItemEntity {
     userId: string;
     name: string;
     quantity: number;
-    isLow: boolean;
+    isLow?: boolean;
   }) {
     this.id = id;
     this.userId = userId;
@@ -66,6 +66,18 @@ export class ItemEntity {
   }
 
   setQuantity(quantity: number) {
+    this.quantity = quantity;
+  }
+
+  updateStock(quantity: number) {
+    if (quantity < 0) {
+      throw new Error("Item's stock must be equal or greader than 0");
+    }
+
+    if (quantity === 0) {
+      this.isLow = false;
+    }
+
     this.quantity = quantity;
   }
 
