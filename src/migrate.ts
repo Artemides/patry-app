@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
-import { db } from "../db";
+import { db } from "./db";
 async function main() {
   await migrate(db, { migrationsFolder: "drizzle/migrations" });
 }

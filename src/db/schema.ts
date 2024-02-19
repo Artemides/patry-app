@@ -1,17 +1,19 @@
 import {
+  timestamp,
   pgTable,
   text,
-  timestamp,
-  integer,
   serial,
-  boolean,
   varchar,
+  primaryKey,
+  integer,
+  date,
+  boolean,
 } from "drizzle-orm/pg-core";
-import { AdapterAccount } from "@auth/core/adapters";
+import type { AdapterAccount } from "@auth/core/adapters";
 
 export const users = pgTable("user", {
   id: text("id").notNull().primaryKey(),
-  name: text("name").notNull(),
+  name: text("name"),
   email: text("email").notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
@@ -54,17 +56,19 @@ export const verificationTokens = pgTable(
     token: text("token").notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
   },
-  (vt) => ({ primaryKey: [vt.identifier, vt.token] })
+  (vt) => ({
+    primaryKey: [vt.identifier, vt.token],
+  })
 );
 
-export const items = pgTable("item", {
+export const items = pgTable("items", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 256 }).notNull(),
   quantity: integer("quantity").notNull().default(0),
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  isLow: boolean("isLow").default(false).notNull(),
+  isLow: boolean("isLow").notNull().default(false),
 });
 
 export type Item = typeof items.$inferSelect;
