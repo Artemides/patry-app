@@ -11,3 +11,4 @@ export type CreateItemDto = {
   name: string;
   quantity: number;
 };
+export type ActionState = "error" | "success" | "default";

@@ -18,26 +18,26 @@ export async function createItemUseCase(data: {
   name: string;
   quantity: number;
 }) {
-  const { getUser } = await auth();
-  const user = getUser();
+  const { user } = await auth();
+
   if (!user) {
     throw new AuthenticationError();
   }
 
-  const existingItem = await getItemByName(user.userId, data.name);
-  if (existingItem) {
-    const itemEntity = new ItemEntity({
-      ...existingItem,
-      quantity: existingItem.quantity + data.quantity,
-    });
-
-    await updateItem(itemToDto(itemEntity));
-    return;
-  }
-
   try {
+    const existingItem = await getItemByName(user.id, data.name);
+    if (existingItem) {
+      const itemEntity = new ItemEntity({
+        ...existingItem,
+        quantity: existingItem.quantity + data.quantity,
+      });
+
+      await updateItem(itemToDto(itemEntity));
+      return;
+    }
+
     const itemEntity = new ItemEntity({
-      userId: user.userId,
+      userId: user.id,
       name: data.name,
       quantity: data.quantity,
     });
@@ -54,8 +54,7 @@ export const updateItemStockUseCase = async (data: {
   itemId: number;
   quantity: number;
 }) => {
-  const { getUser } = await auth();
-  const user = getUser();
+  const { user } = await auth();
   if (!user) {
     throw new AuthenticationError();
   }
@@ -68,8 +67,7 @@ export const updateItemStockUseCase = async (data: {
 };
 
 export const deleteItemUseCase = async (data: { itemId: number }) => {
-  const { getUser } = await auth();
-  const user = getUser();
+  const { user } = await auth();
   if (!user) {
     throw new AuthenticationError();
   }
@@ -77,9 +75,21 @@ export const deleteItemUseCase = async (data: { itemId: number }) => {
   await deleteItem(data.itemId);
 };
 
+export const ToogleItemUseCase = async (data: { itemId: number }) => {
+  const { user } = await auth();
+  if (!user) {
+    throw new AuthenticationError();
+  }
+
+  const foundItem = await getItem(data.itemId);
+  const item = new ItemEntity(foundItem);
+  item.toggleLow();
+  await updateItem(itemToDto(item));
+  return itemToDto(item);
+};
+
 export const markAsLowUseCase = async (data: { itemId: number }) => {
-  const { getUser } = await auth();
-  const user = getUser();
+  const { user } = await auth();
   if (!user) {
     throw new AuthenticationError();
   }
@@ -92,8 +102,7 @@ export const markAsLowUseCase = async (data: { itemId: number }) => {
 };
 
 export const unmarkAsLowUseCase = async (data: { itemId: number }) => {
-  const { getUser } = await auth();
-  const user = getUser();
+  const { user } = await auth();
   if (!user) {
     throw new AuthenticationError();
   }

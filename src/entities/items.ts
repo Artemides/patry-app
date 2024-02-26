@@ -105,6 +105,9 @@ export class ItemEntity {
     this.isLow = false;
   }
 
+  toggleLow() {
+    this.isLow = !this.isLow;
+  }
   validate() {
     const itemSchema = z.object({
       userId: z.string().min(1),
