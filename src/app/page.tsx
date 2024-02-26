@@ -3,8 +3,8 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-between p-12">
-      <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+    <main className="flex items-center justify-center p-12 h-[calc(100vh-73px)]">
+      <div className="mx-auto max-w-2xl">
         <div className="text-center">
           <h1 className="text-foreground text-4xl font-bold tracking-tight sm:text-6xl">
             Streamline Your Kitchen Inventory with Ease

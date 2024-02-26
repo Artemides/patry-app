@@ -6,10 +6,12 @@ import ThemeToggle from "./theme-toggle";
 import Avatar from "@/components/Avatar";
 
 const Header = async () => {
-  const { getUser } = await auth();
-  const user = getUser();
+  const { user } = await auth();
+
+  const hasImageProfile = user && user.image && user.name;
+
   return (
-    <div className="border-b border-b-white/30 py-4">
+    <div className="border-b border-b-#5a5a5a/30 py-4 dark:order-b-white/30 ">
       <div className="container mx-auto flex  items-center justify-between">
         <Link href="/" className="flex gap-1 items-center text-xl">
           PantryTracker
@@ -22,7 +24,7 @@ const Header = async () => {
           )}
         </div>
         <div className="flex items-center justify-between gap-4">
-          {user && <Avatar />}
+          {hasImageProfile && <Avatar image={user.image!} name={user.name!} />}
           <ThemeToggle />
           {user ? (
             <Link href="/api/auth/signout">
