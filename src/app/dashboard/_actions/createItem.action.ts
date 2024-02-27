@@ -1,15 +1,17 @@
+"use server";
+
 import { createItemUseCase } from "@/use-cases/items";
-import { itemSchema, quantitySchema } from "@/use-cases/shemas";
 import { ActionState } from "@/use-cases/types";
 import { ValidationError } from "@/use-cases/utils";
 import { revalidatePath } from "next/cache";
 
 type CreateItemAction = {
   state: ActionState;
-  error?: string | Record<string, string | undefined>;
+  error?: string;
 };
 
 export async function createItemAction(
+  state: CreateItemAction,
   formData: FormData
 ): Promise<CreateItemAction> {
   const form = {
@@ -29,7 +31,7 @@ export async function createItemAction(
     if (err instanceof ValidationError) {
       return {
         state: "error",
-        error: err.getErrors(),
+        error: err.toString(),
       };
     }
 

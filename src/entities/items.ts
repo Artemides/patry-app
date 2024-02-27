@@ -115,7 +115,7 @@ export class ItemEntity {
         .string()
         .min(1)
         .regex(/^[a-z]+$/, "Item name must be a word with no letters"),
-      quantity: z.number().min(0),
+      quantity: z.number().min(1),
       isLow: z.boolean().default(false),
     });
 

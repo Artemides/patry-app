@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/Tabs";
 import { getItems } from "@/data-access/items.persistence";
 import React from "react";
+import CreateItemForm from "./components/CreateItemForm";
 
 type PantryStat = {
   lowItems: number;
@@ -10,7 +11,6 @@ type PantryStat = {
 
 const DashboardPage = async () => {
   const items = await getItems();
-
   const { lowItems, stockedItems, unstockedItems } = items.reduce(
     (stats, item): PantryStat => {
       if (item.quantity) {
@@ -38,15 +38,17 @@ const DashboardPage = async () => {
         <Tabs defaultValue="items">
           <TabsList className="w-full grid grid-cols-3`">
             <TabsTrigger value="items">In Stock {stockedItems}</TabsTrigger>
-            <TabsTrigger value="low">Running Low {stockedItems}</TabsTrigger>
-            <TabsTrigger value="out"> Out of Stock {stockedItems}</TabsTrigger>
+            <TabsTrigger value="low">Running Low {lowItems}</TabsTrigger>
+            <TabsTrigger value="out">Out of Stock {unstockedItems}</TabsTrigger>
           </TabsList>
           <TabsContent value="items"></TabsContent>
           <TabsContent value="low"></TabsContent>
           <TabsContent value="out"></TabsContent>
         </Tabs>
       </div>
-      <div className="col-span-3 md:col-span-1"></div>
+      <div className="col-span-3 md:col-span-1">
+        <CreateItemForm />
+      </div>
     </main>
   );
 };

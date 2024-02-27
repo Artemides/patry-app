@@ -1,3 +1,5 @@
+"use server";
+
 import { ToogleItemUseCase, deleteItemUseCase } from "@/use-cases/items";
 import { idSchema } from "@/use-cases/shemas";
 import { ActionState } from "@/use-cases/types";

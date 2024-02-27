@@ -1,3 +1,5 @@
+"use server";
+
 import { updateItemStockUseCase } from "@/use-cases/items";
 import { idSchema, quantitySchema } from "@/use-cases/shemas";
 import { ActionState } from "@/use-cases/types";

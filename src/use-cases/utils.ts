@@ -17,6 +17,17 @@ export class ValidationError extends Error {
   getErrors() {
     return this.errors;
   }
+  toString() {
+    return Object.keys(this.errors)
+      .reduce((errors, key) => {
+        const value = this.errors[key];
+        if (!value) return errors;
+
+        errors += `"${key}": ${value}. `;
+        return errors;
+      }, "Errors: ")
+      .trim();
+  }
 }
 
 export const itemToCreateItemDto = (item: ItemEntity): CreateItemDto => {
