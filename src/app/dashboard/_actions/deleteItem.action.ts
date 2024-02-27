@@ -11,7 +11,8 @@ type DeleteItemAction = {
   error?: string;
 };
 
-export const updateStockAction = async (
+export const deleteItemAction = async (
+  status: DeleteItemAction,
   formdata: FormData
 ): Promise<DeleteItemAction> => {
   try {

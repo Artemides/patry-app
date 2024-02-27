@@ -12,6 +12,7 @@ type UpdateStockAction = {
 };
 
 export const updateStockAction = async (
+  statis: UpdateStockAction,
   formdata: FormData
 ): Promise<UpdateStockAction> => {
   try {
@@ -19,8 +20,8 @@ export const updateStockAction = async (
       itemId: formdata.get("itemId"),
       quantity: formdata.get("quantity"),
     };
-    const itemId = idSchema.parse(form.itemId);
-    const quantity = quantitySchema.parse(form.quantity);
+    const itemId = z.coerce.number().parse(form.itemId);
+    const quantity = z.coerce.number().parse(form.quantity);
 
     await updateItemStockUseCase({ itemId, quantity });
     revalidatePath("/");

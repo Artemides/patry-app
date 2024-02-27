@@ -84,6 +84,7 @@ export const ToogleItemUseCase = async (data: { itemId: number }) => {
   const foundItem = await getItem(data.itemId);
   const item = new ItemEntity(foundItem);
   item.toggleLow();
+  console.log({ item: itemToDto(item) });
   await updateItem(itemToDto(item));
   return itemToDto(item);
 };

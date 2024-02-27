@@ -11,14 +11,15 @@ type ToggleItemAction = {
   error?: string;
 };
 
-export const updateStockAction = async (
+export const ToogleItemAction = async (
+  status: ToggleItemAction,
   formdata: FormData
 ): Promise<ToggleItemAction> => {
   try {
     const form = {
-      itemId: formdata.get("itemId"),
+      itemId: formdata.get("itemId") as string,
     };
-    const itemId = idSchema.parse(form.itemId);
+    const itemId = z.coerce.number().parse(form.itemId);
 
     await ToogleItemUseCase({ itemId });
     revalidatePath("/");
